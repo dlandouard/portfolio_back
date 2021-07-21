@@ -1,3 +1,4 @@
+const multer = require('multer');
 const Joi = require('joi');
 const { findMany, findOneById, createOne, updateOne, deleteOne } = require('../models/picture.model');
 
@@ -33,19 +34,42 @@ const getOnePictureById = (req, res) => {
     });
 };
 
+const uploadPicture = (req, res, next) => {
+  const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'public/image');
+    },
+    filename: (_, file, cb) => {
+      cb(null, `${Date.now()}-${file.originalname}`);
+    },
+  });
+  const upload = multer({ storage: storage }).single('file');
+  upload(req, res, (err) => {
+    if (err) {
+      res.status(500).json('err');
+    } else {
+      const configuration = JSON.parse(req.body.configuration);
+      req.itemAndImg = {
+        title: req.file.filename,
+        ...configuration,
+      };
+      next();
+    }
+  });
+};
+
 const createOnePicture = (req, res, next) => {
-  const { path, alt, type, project_id, link } = req.body;
+  const { title, alt, type, project_id } = req.itemAndImg;
   const { error } = Joi.object({
-    path: Joi.string().max(255).required(),
+    title: Joi.string().max(255).required(),
     alt: Joi.string().max(255).required(),
     type: Joi.string().max(100).required(),
     project_id: Joi.number().integer(),
-    link: Joi.string().max(255),
-  }).validate({ path, alt, type, project_id, link }, { abortEarly: false });
+  }).validate({ title, alt, type, project_id }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {
-    createOne({ path, alt, type, project_id })
+    createOne({ title, alt, type, project_id })
       .then(([results]) => {
         res.status(201);
         req.pictureId = results.insertId;
@@ -58,15 +82,15 @@ const createOnePicture = (req, res, next) => {
 };
 
 const updateOnePicture = (req, res, next) => {
-  const { path, alt, type, project_id } = req.body;
+  const { title, alt, type, project_id } = req.body;
   const { error } = Joi.object({
-    path: Joi.string().max(255),
+    title: Joi.string().max(255),
     alt: Joi.string().max(255),
     type: Joi.string().max(100),
     project_id: Joi.number().integer(),
   })
     .min(1)
-    .validate({ path, alt, type, project_id }, { abortEarly: false });
+    .validate({ title, alt, type, project_id }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {
@@ -101,6 +125,7 @@ const deleteOnePicture = (req, res) => {
 module.exports = {
   getAllPictures,
   getOnePictureById,
+  uploadPicture,
   createOnePicture,
   updateOnePicture,
   deleteOnePicture,

@@ -15,6 +15,8 @@ app.use(
 
 app.use(express.json());
 
+app.use('/image', express.static('public/image'));
+
 app.get('/', (req, res) => {
     res.status(200).json({ foo: 'Hello World, welcome in my portfolio backend API' });
   });

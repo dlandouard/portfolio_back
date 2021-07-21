@@ -34,16 +34,17 @@ const getOneProjectById = (req, res) => {
 };
 
 const createOneProject = (req, res, next) => {
-  const { title, technology, description } = req.body;
+  const { title, technology, description, link } = req.body;
   const { error } = Joi.object({
     title: Joi.string().max(100).required(),
     technology: Joi.string().max(100).required(),
     description: Joi.string().max(255).required(),
-  }).validate({ title, technology, description }, { abortEarly: false });
+    link: Joi.string().max(255),
+  }).validate({ title, technology, description, link }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {
-    createOne({ title, technology, description })
+    createOne({ title, technology, description, link })
       .then(([results]) => {
         res.status(201);
         req.projectId = results.insertId;
@@ -56,14 +57,15 @@ const createOneProject = (req, res, next) => {
 };
 
 const updateOneProject = (req, res, next) => {
-  const { title, technology, description } = req.body;
+  const { title, technology, description, link } = req.body;
   const { error } = Joi.object({
     title: Joi.string().max(100),
     technology: Joi.string().max(100),
     description: Joi.string().max(255),
+    link: Joi.string().max(255),
   })
     .min(1)
-    .validate({ title, technology, description }, { abortEarly: false });
+    .validate({ title, technology, description, link }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {
