@@ -1,0 +1,34 @@
+{
+  "name": "portfolio_back",
+  "version": "1.0.0",
+  "description": "portfolio created during the checkpoint 4 at WCS",
+  "main": "server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dlandouard/portfolio_back.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dlandouard/portfolio_back/issues"
+  },
+  "homepage": "https://github.com/dlandouard/portfolio_back#readme",
+  "dependencies": {
+    "argon2": "^0.28.2",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "joi": "^17.4.1",
+    "multer": "^1.4.2",
+    "mysql2": "^2.2.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
