@@ -1,4 +1,4 @@
-const categoryRouter = require("express").Router();
+const projectRouter = require("express").Router();
 const {
   getAllProjects,
   getOneProjectById,
@@ -7,10 +7,10 @@ const {
   deleteOneProject,
 } = require("../controllers/project.controller");
 
-categoryRouter.get("/", getAllProjects);
-categoryRouter.get("/:id", getOneProjectById);
-categoryRouter.post("/", createOneProject, getOneProjectById);
-categoryRouter.put("/:id", updateOneProject, getOneProjectById);
-categoryRouter.delete("/:id", deleteOneProject);
+projectRouter.get("/", getAllProjects);
+projectRouter.get("/:id", getOneProjectById);
+projectRouter.post("/", createOneProject, getOneProjectById);
+projectRouter.put("/:id", updateOneProject, getOneProjectById);
+projectRouter.delete("/:id", deleteOneProject);
 
-module.exports = categoryRouter;
+module.exports = projectRouter;

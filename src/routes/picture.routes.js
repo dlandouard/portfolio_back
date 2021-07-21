@@ -1,4 +1,4 @@
-const categoryRouter = require("express").Router();
+const pictureRouter = require("express").Router();
 const {
   getAllPictures,
   getOnePictureById,
@@ -7,10 +7,10 @@ const {
   deleteOnePicture,
 } = require("../controllers/picture.controller");
 
-categoryRouter.get("/", getAllPictures);
-categoryRouter.get("/:id", getOnePictureById);
-categoryRouter.post("/", createOnePicture, getOnePictureById);
-categoryRouter.put("/:id", updateOnePicture, getOnePictureById);
-categoryRouter.delete("/:id", deleteOnePicture);
+pictureRouter.get("/", getAllPictures);
+pictureRouter.get("/:id", getOnePictureById);
+pictureRouter.post("/", createOnePicture, getOnePictureById);
+pictureRouter.put("/:id", updateOnePicture, getOnePictureById);
+pictureRouter.delete("/:id", deleteOnePicture);
 
-module.exports = categoryRouter;
+module.exports = pictureRouter;

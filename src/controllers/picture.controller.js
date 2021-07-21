@@ -34,19 +34,21 @@ const getOnePictureById = (req, res) => {
 };
 
 const createOnePicture = (req, res, next) => {
-  const { path, alt, type, project_id } = req.body;
+  const { path, alt, type, project_id, link } = req.body;
   const { error } = Joi.object({
     path: Joi.string().max(255).required(),
     alt: Joi.string().max(255).required(),
     type: Joi.string().max(100).required(),
     project_id: Joi.number().integer(),
-  }).validate({ path, alt, type, project_id }, { abortEarly: false });
+    link: Joi.string().max(255),
+  }).validate({ path, alt, type, project_id, link }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {
     createOne({ path, alt, type, project_id })
       .then(([results]) => {
-        req.projectId = results.insertId;
+        res.status(201);
+        req.pictureId = results.insertId;
         next();
       })
       .catch((err) => {

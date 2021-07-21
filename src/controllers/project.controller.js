@@ -23,7 +23,7 @@ const getOneProjectById = (req, res) => {
   findOneById(id)
     .then(([Project]) => {
       if (Project.length === 0) {
-        res.status(404).send('Project not found');
+        res.status(404).send('Projet non trouvé');
       } else {
         res.json(Project[0]);
       }
@@ -45,6 +45,7 @@ const createOneProject = (req, res, next) => {
   } else {
     createOne({ title, technology, description })
       .then(([results]) => {
+        res.status(201);
         req.projectId = results.insertId;
         next();
       })
@@ -69,7 +70,7 @@ const updateOneProject = (req, res, next) => {
     updateOne(req.body, req.params.id)
       .then(([results]) => {
         if (results.affectedRows === 0) {
-          res.status(404).send('Project not found');
+          res.status(404).send('Projet non trouvé');
         } else {
           next();
         }
@@ -84,7 +85,7 @@ const deleteOneProject = (req, res) => {
   deleteOne(req.params.id)
     .then(([results]) => {
       if (results.affectedRows === 0) {
-        res.status(404).send('Project not found');
+        res.status(404).send('Projet non trouvé');
       } else {
         res.sendStatus(204);
       }
