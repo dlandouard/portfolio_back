@@ -3,6 +3,7 @@ const {
   getAllProjects,
   getAllProjectsWithImgs,
   getOneProjectById,
+  getOneProjectWithImgById,
   createOneProject,
   updateOneProject,
   deleteOneProject,
@@ -10,7 +11,7 @@ const {
 
 projectRouter.get("/", getAllProjects);
 projectRouter.get("/withImgs", getAllProjectsWithImgs);
-projectRouter.get("/:id", getOneProjectById);
+projectRouter.get("/:id", getOneProjectWithImgById);
 projectRouter.post("/", createOneProject, getOneProjectById);
 projectRouter.put("/:id", updateOneProject, getOneProjectById);
 projectRouter.delete("/:id", deleteOneProject);

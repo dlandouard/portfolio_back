@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { findMany, findManyWithImgs, findOneById, createOne, updateOne, deleteOne } = require('../models/project.model');
+const { findMany, findManyWithImgs, findOneById, findOneWithImgById, createOne, updateOne, deleteOne } = require('../models/project.model');
 
 const getAllProjects = (req, res) => {
   findMany()
@@ -38,6 +38,27 @@ const getOneProjectById = (req, res) => {
         res.status(404).send('Projet non trouvé');
       } else {
         res.json(Project[0]);
+      }
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
+const getOneProjectWithImgById = (req, res) => {
+  let id;
+  if (req.projectId) {
+    id = req.projectId;
+  } else {
+    id = req.params.id;
+  }
+
+  findOneWithImgById(id)
+    .then(([Project]) => {
+      if (Project.length === 0) {
+        res.status(404).send('Projet non trouvé');
+      } else {
+        res.json(Project);
       }
     })
     .catch((err) => {
@@ -113,6 +134,7 @@ module.exports = {
   getAllProjects,
   getAllProjectsWithImgs,
   getOneProjectById,
+  getOneProjectWithImgById,
   createOneProject,
   updateOneProject,
   deleteOneProject,
