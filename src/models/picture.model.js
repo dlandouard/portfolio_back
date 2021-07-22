@@ -25,10 +25,16 @@ const deleteOne = (id) => {
   return connection.promise().query(sql, [id]);
 };
 
+const findPicturesPerProjectId = (id) => {
+  const sql = 'SELECT p.id, pic.* FROM picture pic JOIN project p ON p.id=pic.project_id WHERE p.id=?';
+  return connection.promise().query(sql, [id]);
+};
+
 module.exports = {
   findMany,
   findOneById,
   createOne,
   updateOne,
   deleteOne,
+  findPicturesPerProjectId,
 };

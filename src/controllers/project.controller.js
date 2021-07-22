@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { findMany, findOneById, createOne, updateOne, deleteOne } = require('../models/project.model');
+const { findMany, findManyWithImgs, findOneById, findOneWithImgById, createOne, updateOne, deleteOne } = require('../models/project.model');
 
 const getAllProjects = (req, res) => {
   findMany()
@@ -11,6 +11,18 @@ const getAllProjects = (req, res) => {
       res.status(500).send(err.message);
     });
 };
+
+const getAllProjectsWithImgs = (req, res) => {
+  findManyWithImgs()
+    .then((results) => {
+      const project = results[0];
+      res.json(project);
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
 
 const getOneProjectById = (req, res) => {
   let id;
@@ -26,6 +38,27 @@ const getOneProjectById = (req, res) => {
         res.status(404).send('Projet non trouvé');
       } else {
         res.json(Project[0]);
+      }
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
+const getOneProjectWithImgById = (req, res) => {
+  let id;
+  if (req.projectId) {
+    id = req.projectId;
+  } else {
+    id = req.params.id;
+  }
+
+  findOneWithImgById(id)
+    .then(([Project]) => {
+      if (Project.length === 0) {
+        res.status(404).send('Projet non trouvé');
+      } else {
+        res.json(Project);
       }
     })
     .catch((err) => {
@@ -99,7 +132,9 @@ const deleteOneProject = (req, res) => {
 
 module.exports = {
   getAllProjects,
+  getAllProjectsWithImgs,
   getOneProjectById,
+  getOneProjectWithImgById,
   createOneProject,
   updateOneProject,
   deleteOneProject,
