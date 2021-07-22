@@ -5,6 +5,11 @@ const findMany = () => {
   return connection.promise().query(sql);
 };
 
+const findManyWithImgs = () => {
+  const sql = 'SELECT p.*, pic.title imgTitle, pic.alt, pic.type FROM project p LEFT JOIN picture pic ON pic.project_id=p.id';
+  return connection.promise().query(sql);
+};
+
 const findOneById = (id) => {
   const sql = 'SELECT * FROM project WHERE id=?';
   return connection.promise().query(sql, [id]);
@@ -27,6 +32,7 @@ const deleteOne = (id) => {
 
 module.exports = {
   findMany,
+  findManyWithImgs,
   findOneById,
   createOne,
   updateOne,

@@ -1,6 +1,7 @@
 const projectRouter = require("express").Router();
 const {
   getAllProjects,
+  getAllProjectsWithImgs,
   getOneProjectById,
   createOneProject,
   updateOneProject,
@@ -8,6 +9,7 @@ const {
 } = require("../controllers/project.controller");
 
 projectRouter.get("/", getAllProjects);
+projectRouter.get("/withImgs", getAllProjectsWithImgs);
 projectRouter.get("/:id", getOneProjectById);
 projectRouter.post("/", createOneProject, getOneProjectById);
 projectRouter.put("/:id", updateOneProject, getOneProjectById);
